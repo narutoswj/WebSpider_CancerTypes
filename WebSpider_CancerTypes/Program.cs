@@ -14,11 +14,11 @@ namespace WebSpider_CancerTypes
     {
         static void Main(string[] args)
         {
-            //string html = GetUrltoHtml("http://www.cancer.gov/", "utf-8");
+            //string html = GetUrltoHtml("http://www.cancer.gov/types", "utf-8");
             //Console.WriteLine(html);
             //Console.ReadLine();
 
-            var uri = new Uri("http://www.cancer.gov/");
+            var uri = new Uri("http://www.cancer.gov/types");
             var browser = new ScrapingBrowser();
             var htmlDoc = browser.DownloadString(uri);
 
@@ -26,13 +26,21 @@ namespace WebSpider_CancerTypes
             htmlDocument.LoadHtml(htmlDoc);
 
             var htmlNode = htmlDocument.DocumentNode;
-            var title = htmlNode.CssSelect("title");
+            var title = htmlNode.SelectNodes("//ul[@class='cancer-list']/li");
 
-            foreach (var htmlNod in title)
+            foreach (var ul in title)
             {
-                Console.WriteLine(htmlNode.InnerHtml);
-            }
+                string test = ul.InnerHtml;
+                Console.WriteLine(ul.InnerHtml);
 
+                var child = ul.SelectNodes("ul");
+                foreach (var ulchild in title)
+                {
+                    string testchild = ul.InnerHtml;
+                    Console.WriteLine(ul.InnerHtml);
+                }
+            }
+            Console.ReadLine();
         }
 
 
