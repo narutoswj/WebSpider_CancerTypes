@@ -14,30 +14,41 @@ namespace WebSpider_CancerTypes
     {
         static void Main(string[] args)
         {
-            //string html = GetUrltoHtml("http://www.cancer.gov/types", "utf-8");
-            //Console.WriteLine(html);
-            //Console.ReadLine();
+            string htmlDoc = GetUrltoHtml("http://www.cancer.gov/types", "utf-8");
 
-            var uri = new Uri("http://www.cancer.gov/types");
-            var browser = new ScrapingBrowser();
-            var htmlDoc = browser.DownloadString(uri);
+
+            //var uri = new Uri("http://www.cancer.gov/types");
+            //var browser = new ScrapingBrowser();
+            //var htmlDoc = browser.DownloadString(uri);
 
             var htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(htmlDoc);
 
             var htmlNode = htmlDocument.DocumentNode;
-            var title = htmlNode.SelectNodes("//ul[@class='cancer-list']/li");
+            var title = htmlNode.SelectNodes("//ul[@class='cancer-list']");
 
             foreach (var ul in title)
             {
                 string test = ul.InnerHtml;
-                Console.WriteLine(ul.InnerHtml);
 
-                var child = ul.SelectNodes("ul");
-                foreach (var ulchild in title)
+                //var child = ul.SelectNodes("child::li");
+                var child = ul.ChildNodes;
+                //Console.WriteLine(ul.InnerText);
+                foreach (var ulchild in child)
                 {
-                    string testchild = ul.InnerHtml;
-                    Console.WriteLine(ul.InnerHtml);
+                    if(ulchild.Name != "#text")
+                    {
+                        var grandchild = ulchild.SelectNodes("child::ul");
+                        if (grandchild != null)
+                        {
+                            foreach(var sub in grandchild[0].ChildNodes)
+                            {
+                                if (sub.Name != "#text")
+                                    Console.WriteLine(sub.InnerText);
+                            }
+                        }
+
+                    }
                 }
             }
             Console.ReadLine();
