@@ -31,23 +31,21 @@ namespace WebSpider_CancerTypes
             {
                 string test = ul.InnerHtml;
 
-                //var child = ul.SelectNodes("child::li");
                 var child = ul.ChildNodes;
-                //Console.WriteLine(ul.InnerText);
                 foreach (var ulchild in child)
                 {
                     if(ulchild.Name != "#text")
                     {
+                        Console.WriteLine("@" + ulchild.ChildNodes[0].InnerText.Replace("\t", "").Replace("\n", ""));
                         var grandchild = ulchild.SelectNodes("child::ul");
                         if (grandchild != null)
                         {
-                            foreach(var sub in grandchild[0].ChildNodes)
+                            foreach (var sub in grandchild[0].ChildNodes)
                             {
                                 if (sub.Name != "#text")
-                                    Console.WriteLine(sub.InnerText);
+                                    Console.WriteLine(sub.InnerText.Replace("\t", "").Replace("\n", "") + " @ " + ulchild.ChildNodes[0].InnerText.Replace("\t", "").Replace("\n", ""));
                             }
                         }
-
                     }
                 }
             }
