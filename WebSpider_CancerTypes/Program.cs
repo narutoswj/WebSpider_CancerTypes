@@ -36,7 +36,7 @@ namespace WebSpider_CancerTypes
                 {
                     if(ulchild.Name != "#text")
                     {
-                        Console.WriteLine("@" + ulchild.ChildNodes[0].InnerText.Replace("\t", "").Replace("\n", ""));
+                        Console.WriteLine(ulchild.ChildNodes[0].InnerText.Replace("\t", "").Replace("\n", ""));
                         var grandchild = ulchild.SelectNodes("child::ul");
                         if (grandchild != null)
                         {
